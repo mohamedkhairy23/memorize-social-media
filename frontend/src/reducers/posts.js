@@ -4,8 +4,8 @@ export default (posts = [], action) => {
     case "FETCH_ALL":
       return action.payload;
     case "CREATE":
-      return action.payload;
+      return [...posts, action.payload];
     default:
-      return action.payload;
+      return posts;
   }
 };

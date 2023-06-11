@@ -1,0 +1,9 @@
+form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.fileInput {
+  width: 97%;
+  margin: 10px 0;
+}
