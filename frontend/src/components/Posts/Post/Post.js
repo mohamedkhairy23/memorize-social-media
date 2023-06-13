@@ -42,7 +42,9 @@ const Post = ({ post, setCurrentId }) => {
       />
       <div className="overlay1">
         <Typography variant="h6">{post.creator}</Typography>
-        <Typography variant="h6">{moment(post.createdAt).fromNow()}</Typography>
+        <Typography variant="body2">
+          {moment(post.createdAt).fromNow()}
+        </Typography>
       </div>
       <div className="overlay2">
         <Button
@@ -57,7 +59,7 @@ const Post = ({ post, setCurrentId }) => {
         <Typography variant="body2" color="textSecondary">
           {post.tags.map((tag) => `#${tag} `)}
         </Typography>
-      </div>{" "}
+      </div>
       <Typography
         sx={{ padding: "0 16px" }}
         gutterBottom

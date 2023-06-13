@@ -41,6 +41,7 @@ const App = () => {
             justifyContent="space-between"
             alignItems="stretch"
             spacing={3}
+            sx={{ flexDirection: { xs: "column-reverse", sm: "row" } }}
           >
             <Grid item xs={12} sm={7}>
               <Posts setCurrentId={setCurrentId} />
