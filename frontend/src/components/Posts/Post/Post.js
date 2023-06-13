@@ -12,7 +12,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import moment from "moment";
 
-const Post = ({ post }) => {
+const Post = ({ post, setCurrentId }) => {
   return (
     <Card
       sx={{
@@ -31,7 +31,10 @@ const Post = ({ post }) => {
           backgroundColor: "rgba(0,0,0,0.5)",
           backgroundBlendMode: "darken",
         }}
-        image={post.selectedFile}
+        image={
+          post.selectedFile ||
+          "https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png"
+        }
         title={post.title}
       />
       <div className="overlay1">
@@ -39,7 +42,11 @@ const Post = ({ post }) => {
         <Typography variant="h6">{moment(post.createdAt).fromNow()}</Typography>
       </div>
       <div className="overlay2">
-        <Button style={{ color: "white" }} size="small" onClick={() => {}}>
+        <Button
+          style={{ color: "white" }}
+          size="small"
+          onClick={() => setCurrentId(post._id)}
+        >
           <MoreHorizIcon fontSize="default" />
         </Button>
       </div>
@@ -47,9 +54,17 @@ const Post = ({ post }) => {
         <Typography variant="body2" color="textSecondary">
           {post.tags.map((tag) => `#${tag} `)}
         </Typography>
-      </div>
+      </div>{" "}
+      <Typography
+        sx={{ padding: "0 16px" }}
+        gutterBottom
+        variant="h5"
+        component="h2"
+      >
+        {post.title}
+      </Typography>
       <CardContent>
-        <Typography sx={{ padding: "0 16px" }} variant="h5" gutterBottom>
+        <Typography variant="body2" color="textSecondary" component="p">
           {post.message}
         </Typography>
       </CardContent>
