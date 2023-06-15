@@ -1,9 +1,28 @@
 import { AppBar, Avatar, Button, Toolbar, Typography } from "@mui/material";
 import memories from "../../assets/images/memories.png";
 import "./Navbar.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { LOGOUT } from "../../constants/actionTypes";
 export const Navbar = () => {
-  const user = false;
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const logout = () => {
+    dispatch({ type: LOGOUT });
+    navigate("/");
+    setUser(null);
+  };
+
+  useEffect(() => {
+    const token = user?.token;
+
+    setUser(JSON.parse(localStorage.getItem("profile")));
+  }, [location]);
+
   return (
     <AppBar
       sx={{
@@ -51,7 +70,7 @@ export const Navbar = () => {
             >
               {user.result.name}
             </Typography>
-            <Button variant="contained" color="secondary">
+            <Button variant="contained" color="secondary" onClick={logout}>
               Logout
             </Button>
           </div>

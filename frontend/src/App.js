@@ -1,5 +1,4 @@
 import { Container } from "@mui/material";
-import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { getPosts } from "./actions/posts";
 import { Navbar } from "./components/Navbar/Navbar";
