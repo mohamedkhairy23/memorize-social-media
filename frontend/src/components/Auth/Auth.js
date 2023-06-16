@@ -16,6 +16,7 @@ import { useDispatch } from "react-redux";
 import { AUTH } from "../../constants/actionTypes";
 import { useNavigate } from "react-router-dom";
 import { signIn, signUp } from "../../actions/auth";
+
 const initialState = {
   firstName: "",
   lastName: "",

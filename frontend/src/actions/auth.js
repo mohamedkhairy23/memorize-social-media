@@ -3,7 +3,8 @@ import * as api from "../api/index.js";
 
 export const signIn = (formData, navigate) => async (dispatch) => {
   try {
-    // navigate("/");
+    const { data } = await api.signIn(formData);
+    navigate("/");
   } catch (err) {
     console.log(err);
   }
@@ -11,7 +12,7 @@ export const signIn = (formData, navigate) => async (dispatch) => {
 
 export const signUp = (formData, navigate) => async (dispatch) => {
   try {
-    // navigate("/");
+    navigate("/");
   } catch (err) {
     console.log(err);
   }
