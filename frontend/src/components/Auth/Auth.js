@@ -15,17 +15,36 @@ import { gapi } from "gapi-script";
 import { useDispatch } from "react-redux";
 import { AUTH } from "../../constants/actionTypes";
 import { useNavigate } from "react-router-dom";
+import { signIn, signUp } from "../../actions/auth";
+const initialState = {
+  firstName: "",
+  lastName: "",
+  email: "",
+  password: "",
+  confirmPassword: "",
+};
+
 const Auth = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [isSignUp, setIsSignUp] = useState(false);
-  // const isSignUp = false;
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleSubmit = () => {};
+  const [formData, setFormData] = useState(initialState);
+  console.log(formData);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (isSignUp) {
+      dispatch(signUp(formData, navigate()));
+    } else {
+      dispatch(signIn(formData, navigate()));
+    }
+  };
 
-  const handleChange = () => {};
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   const handleShowPassword = () => {
     setShowPassword((prevShowPassword) => !prevShowPassword);
@@ -66,6 +85,7 @@ const Auth = () => {
 
     gapi.load("client:auth2", start);
   }, []);
+
   return (
     <Container component="main" maxWidth="xs">
       <Paper
@@ -84,7 +104,7 @@ const Auth = () => {
         <Typography variant="h5" sx={{ mb: 1 }}>
           {isSignUp ? "Sign Up" : "Sign In"}
         </Typography>
-        <form>
+        <form onSubmit={handleSubmit}>
           <Grid container spacing={2}>
             {isSignUp && (
               <>
