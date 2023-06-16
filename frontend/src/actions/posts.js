@@ -10,7 +10,9 @@ import {
 // Create Actions
 export const getPosts = () => async (dispatch) => {
   try {
+    // destruct data from returned response
     const { data } = await api.fetchPosts();
+
     dispatch({ type: FETCH_ALL, payload: data });
   } catch (err) {
     console.log(err);
