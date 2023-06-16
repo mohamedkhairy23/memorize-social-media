@@ -6,6 +6,7 @@ import {
   Paper,
   Typography,
   Button,
+  Alert,
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Input from "./Input";
@@ -16,6 +17,7 @@ import { useDispatch } from "react-redux";
 import { AUTH } from "../../constants/actionTypes";
 import { useNavigate } from "react-router-dom";
 import { signIn, signUp } from "../../actions/auth";
+
 const initialState = {
   firstName: "",
   lastName: "",
@@ -27,18 +29,18 @@ const initialState = {
 const Auth = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const [isSignUp, setIsSignUp] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
   const [formData, setFormData] = useState(initialState);
   console.log(formData);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (isSignUp) {
-      dispatch(signUp(formData, navigate()));
+      dispatch(signUp(formData, navigate));
     } else {
-      dispatch(signIn(formData, navigate()));
+      dispatch(signIn(formData, navigate));
     }
   };
 
@@ -52,6 +54,7 @@ const Auth = () => {
 
   const switchAuthMode = () => {
     setIsSignUp((prevState) => !prevState);
+    setShowPassword(false);
   };
 
   const googleSuccess = async (res) => {
@@ -63,7 +66,6 @@ const Auth = () => {
 
     try {
       dispatch({ type: AUTH, data: { result, token } });
-
       navigate("/");
     } catch (err) {
       console.log(err);

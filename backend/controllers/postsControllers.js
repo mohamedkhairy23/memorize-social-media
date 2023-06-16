@@ -59,18 +59,31 @@ export const deletePost = async (req, res) => {
 export const likePost = async (req, res) => {
   const { id } = req.params;
 
+  // This (req.userId) come from authorization middleware (auth middleware) that coming from auth token
+  if (!req.userId) {
+    return res.json({ message: "Not authenticated" });
+  }
+
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(404).send("No post with that id");
   }
 
-  const post = await Post.findById(id);
-  const updatedPost = await Post.findByIdAndUpdate(
-    id,
-    {
-      likeCount: post.likeCount + 1,
-    },
-    { new: true }
-  );
+  const foundedPost = await Post.findById(id);
+
+  const index = foundedPost.likes.findIndex((id) => id === String(req.userId));
+  if (index === -1) {
+    // Like a post
+    foundedPost.likes.push(req.userId);
+  } else {
+    // Dislike a post
+    foundedPost.likes = foundedPost.likes.filter(
+      (id) => id !== String(req.userId)
+    );
+  }
+
+  const updatedPost = await Post.findByIdAndUpdate(id, foundedPost, {
+    new: true,
+  });
 
   res.json(updatedPost);
 };
