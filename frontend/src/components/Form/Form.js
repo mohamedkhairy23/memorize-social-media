@@ -60,7 +60,7 @@ const Form = ({ currentId, setCurrentId }) => {
         }}
       >
         <Typography variant="h6" align="center">
-          Please sign in to create your own memories and like other's memories.
+          Please sign in to add your own memories and interact with other people
         </Typography>
       </Paper>
     );
