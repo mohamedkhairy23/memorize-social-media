@@ -6,8 +6,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { createPost, updatePost } from "../../actions/posts";
 
 const Form = ({ currentId, setCurrentId }) => {
+  const dispatch = useDispatch();
   const [postData, setPostData] = useState({
-    creator: "",
     title: "",
     message: "",
     tags: "",
@@ -16,7 +16,7 @@ const Form = ({ currentId, setCurrentId }) => {
   const post = useSelector((state) =>
     currentId ? state.posts.find((p) => p._id === currentId) : null
   );
-  const dispatch = useDispatch();
+  const user = JSON.parse(localStorage.getItem("profile"));
 
   useEffect(() => {
     if (post) {
@@ -24,22 +24,9 @@ const Form = ({ currentId, setCurrentId }) => {
     }
   }, [post]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    if (currentId) {
-      dispatch(updatePost(currentId, postData));
-      clear();
-    } else {
-      dispatch(createPost(postData));
-      clear();
-    }
-  };
-
   const clear = () => {
-    setCurrentId(null);
+    setCurrentId(0);
     setPostData({
-      creator: "",
       title: "",
       message: "",
       tags: "",
@@ -47,23 +34,44 @@ const Form = ({ currentId, setCurrentId }) => {
     });
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (currentId === 0) {
+      dispatch(createPost({ ...postData, name: user?.result?.name }));
+      clear();
+    } else {
+      dispatch(
+        updatePost(currentId, { ...postData, name: user?.result?.name })
+      );
+      clear();
+    }
+  };
+
+  if (!user?.result?.name) {
+    return (
+      <Paper
+        sx={{
+          mt: 8,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          p: 2,
+        }}
+      >
+        <Typography variant="h6" align="center">
+          Please sign in to add your own memories and interact with other people
+        </Typography>
+      </Paper>
+    );
+  }
+
   return (
     <Paper sx={{ px: 2 }}>
-      <form autoComplete="off" noValidate className="" onSubmit={handleSubmit}>
+      <form autoComplete="off" noValidate onSubmit={handleSubmit}>
         <Typography variant="h6">
           {currentId ? `Editing "${post.title}"` : "Creating a Memory"}
         </Typography>
-        <TextField
-          sx={{ m: 1 }}
-          name="creator"
-          variant="outlined"
-          label="Creator"
-          fullWidth
-          value={postData.creator}
-          onChange={(e) =>
-            setPostData({ ...postData, creator: e.target.value })
-          }
-        />
         <TextField
           sx={{ m: 1 }}
           name="title"
@@ -79,6 +87,8 @@ const Form = ({ currentId, setCurrentId }) => {
           variant="outlined"
           label="Message"
           fullWidth
+          multiline
+          rows={4}
           value={postData.message}
           onChange={(e) =>
             setPostData({ ...postData, message: e.target.value })
