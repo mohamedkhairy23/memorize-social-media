@@ -6,7 +6,6 @@ import {
   Paper,
   Typography,
   Button,
-  Alert,
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Input from "./Input";
