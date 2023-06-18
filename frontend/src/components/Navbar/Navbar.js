@@ -38,10 +38,11 @@ export const Navbar = () => {
     <AppBar
       sx={{
         borderRadius: "15px",
-        margin: "30px 0",
+        margin: "30px 8px",
+        pl: 2,
         display: "flex",
         flexDirection: "row",
-        justifyContent: "center",
+        justifyContent: "space-between",
         alignItems: "center",
       }}
       position="static"

@@ -71,7 +71,6 @@ const Post = ({ post, setCurrentId }) => {
         }
         title={post.title}
       />
-
       <div className="overlay1">
         <Typography variant="h6">{post.name}</Typography>
         <Typography variant="body2">
@@ -131,7 +130,6 @@ const Post = ({ post, setCurrentId }) => {
             onClick={() => dispatch(deletePost(post._id))}
           >
             <DeleteIcon fontSize="small" />
-            Delete
           </Button>
         )}
       </CardActions>
