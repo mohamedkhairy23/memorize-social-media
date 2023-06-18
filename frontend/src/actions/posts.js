@@ -5,6 +5,7 @@ import {
   UPDATE,
   DELETE,
   LIKE,
+  FETCH_BY_SEARCH,
 } from "../constants/actionTypes";
 
 // Create Actions
@@ -19,7 +20,18 @@ export const getPosts = () => async (dispatch) => {
   }
 };
 
-export const getPostsBySearch = () => async (dispatch) => {};
+export const getPostsBySearch = (searchQuery) => async (dispatch) => {
+  try {
+    const {
+      // we will distruct the data two times, first time because we are making an axios request and the second time because we put it in a new object where it has the data property
+      data: { data },
+    } = await api.fetchPostsBySearch(searchQuery);
+
+    dispatch({ type: FETCH_BY_SEARCH, payload: data });
+  } catch (err) {
+    console.log(err);
+  }
+};
 
 export const createPost = (post) => async (dispatch) => {
   try {
