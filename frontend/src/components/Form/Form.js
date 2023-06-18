@@ -4,9 +4,11 @@ import FileBase from "react-file-base64";
 import "./Form.css";
 import { useDispatch, useSelector } from "react-redux";
 import { createPost, updatePost } from "../../actions/posts";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Form = ({ currentId, setCurrentId }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [postData, setPostData] = useState({
     title: "",
     message: "",
@@ -43,8 +45,10 @@ const Form = ({ currentId, setCurrentId }) => {
     } else {
       dispatch(
         updatePost(currentId, { ...postData, name: user?.result?.name })
-      );
-      clear();
+      ).then(() => {
+        clear();
+        navigate("/");
+      });
     }
   };
 

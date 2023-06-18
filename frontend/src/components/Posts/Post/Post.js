@@ -57,6 +57,8 @@ const Post = ({ post, setCurrentId }) => {
         height: "100%",
         position: "relative",
       }}
+      raised
+      elevation={6}
     >
       <CardMedia
         height="0"

@@ -1,5 +1,6 @@
 import { AppBar, Avatar, Button, Toolbar, Typography } from "@mui/material";
-import memories from "../../assets/images/memories.png";
+import memoriesLogoImg from "../../assets/images/memories-Logo.png";
+import memoriesTextImg from "../../assets/images/memories-Text.png";
 import "./Navbar.css";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -15,8 +16,8 @@ export const Navbar = () => {
 
   const logout = () => {
     dispatch({ type: LOGOUT });
-    navigate("/");
     setUser(null);
+    navigate("/auth");
   };
 
   useEffect(() => {
@@ -49,15 +50,15 @@ export const Navbar = () => {
       color="inherit"
     >
       <div className="brandContainer">
-        <Typography
-          component={Link}
-          to="/"
-          color="rgba(0,183,255, 1)"
-          variant="h2"
-        >
-          Memories
-        </Typography>
-        <img sx={{ ml: "16px" }} src={memories} alt="memories" height="60" />
+        <Link to="/">
+          <img src={memoriesTextImg} alt="Memories" height="45px" />
+          <img
+            sx={{ ml: "16px" }}
+            src={memoriesLogoImg}
+            alt="Memories Logo"
+            height="40px"
+          />
+        </Link>
       </div>
       <Toolbar
         sx={{

@@ -13,7 +13,7 @@ import Form from "../Form/Form";
 import { useDispatch } from "react-redux";
 import { getPosts, getPostsBySearch } from "../../actions/posts";
 import Paginate from "../Pagination/Paginate";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { MuiChipsInput } from "mui-chips-input";
 
 function useQuery() {
@@ -24,7 +24,6 @@ const Home = () => {
   const [currentId, setCurrentId] = useState(0);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const location = useLocation();
   const query = useQuery();
   const searchQuery = query.get("searchQuery");
   const [search, setSearch] = useState("");
@@ -77,8 +76,12 @@ const Home = () => {
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
             <AppBar
-              borderRadius="4"
-              sx={{ mb: "1rem", display: "flex", padding: "16px" }}
+              sx={{
+                borderRadius: "4",
+                mb: "1rem",
+                display: "flex",
+                padding: "16px",
+              }}
               position="static"
               color="inherit"
             >
@@ -96,8 +99,8 @@ const Home = () => {
               <MuiChipsInput
                 sx={{ mt: 2, mb: 1 }}
                 value={tags}
-                onAddChip={handleAdd}
-                onDeleteChip={handleDelete}
+                onAddChip={(tag) => handleAdd(tag)}
+                onDeleteChip={(tag) => handleDelete(tag)}
                 label="Search Tags"
                 variant="outlined"
               />
@@ -110,7 +113,7 @@ const Home = () => {
                 fullWidth
               >
                 Search
-              </Button>{" "}
+              </Button>
             </AppBar>
             <Form currentId={currentId} setCurrentId={setCurrentId} />
             <Paper
