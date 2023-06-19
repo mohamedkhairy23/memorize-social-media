@@ -57,6 +57,8 @@ const Post = ({ post, setCurrentId }) => {
         height: "100%",
         position: "relative",
       }}
+      raised
+      elevation={6}
     >
       <CardMedia
         height="0"
@@ -71,7 +73,6 @@ const Post = ({ post, setCurrentId }) => {
         }
         title={post.title}
       />
-
       <div className="overlay1">
         <Typography variant="h6">{post.name}</Typography>
         <Typography variant="body2">
@@ -131,7 +132,6 @@ const Post = ({ post, setCurrentId }) => {
             onClick={() => dispatch(deletePost(post._id))}
           >
             <DeleteIcon fontSize="small" />
-            Delete
           </Button>
         )}
       </CardActions>

@@ -2,10 +2,39 @@ import mongoose from "mongoose";
 import Post from "../models/postsModel.js";
 
 export const getPosts = async (req, res) => {
+  const { page } = req.query;
   try {
-    const existedPosts = await Post.find();
+    const LIMIT = 8;
+    const startIndex = (Number(page) - 1) * LIMIT; // Get the starting index of every page
+    const total = await Post.countDocuments({});
+
+    const existedPosts = await Post.find()
+      .sort({ _id: -1 })
+      .limit(LIMIT)
+      .skip(startIndex);
     console.log(existedPosts);
-    res.status(200).json(existedPosts);
+    res.status(200).json({
+      data: existedPosts,
+      currentPage: Number(page),
+      numberOfPages: Math.ceil(total / LIMIT),
+    });
+  } catch (err) {
+    res.status(404).json({ message: err.message });
+  }
+};
+
+// QUERY ==> /posts?page=1 ==> page=1
+// PARAMS ==> /posts/:id ==> id=123
+export const getPostsBySearch = async (req, res) => {
+  const { searchQuery, tags } = req.query;
+  try {
+    const title = new RegExp(searchQuery, "i");
+
+    const posts = await Post.find({
+      $or: [{ title }, { tags: { $in: tags.split(",") } }],
+    });
+
+    res.json({ data: posts });
   } catch (err) {
     res.status(404).json({ message: err.message });
   }
