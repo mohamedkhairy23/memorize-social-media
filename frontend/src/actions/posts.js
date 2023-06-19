@@ -8,13 +8,13 @@ import {
   FETCH_BY_SEARCH,
   START_LOADING,
   END_LOADING,
+  FETCH_POST,
 } from "../constants/actionTypes";
 
 // Create Actions
 export const getPosts = (page) => async (dispatch) => {
   try {
     dispatch({ type: START_LOADING });
-    // destruct data from returned response
     const {
       data: { data, currentPage, numberOfPages },
     } = await api.fetchPosts(page);
@@ -22,6 +22,20 @@ export const getPosts = (page) => async (dispatch) => {
     dispatch({
       type: FETCH_ALL,
       payload: { data, currentPage, numberOfPages },
+    });
+    dispatch({ type: END_LOADING });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const getPost = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: START_LOADING });
+    const { data } = await api.fetchPost(id);
+    dispatch({
+      type: FETCH_POST,
+      payload: data,
     });
     dispatch({ type: END_LOADING });
   } catch (err) {

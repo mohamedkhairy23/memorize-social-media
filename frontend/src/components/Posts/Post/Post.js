@@ -6,6 +6,8 @@ import {
   Button,
   Typography,
   CardMedia,
+  ButtonBase,
+  Link,
 } from "@mui/material";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import ThumbUpAltOutlinedIcon from "@mui/icons-material/ThumbUpAltOutlined";
@@ -18,7 +20,6 @@ import { deletePost, likePost } from "../../../actions/posts";
 const Post = ({ post, setCurrentId }) => {
   const dispatch = useDispatch();
   const user = JSON.parse(localStorage.getItem("profile"));
-
   const Likes = () => {
     if (post.likes.length > 0) {
       return post.likes.find(
@@ -108,7 +109,14 @@ const Post = ({ post, setCurrentId }) => {
         <Typography variant="body2" color="textSecondary" component="p">
           {post.message}
         </Typography>
-      </CardContent>
+      </CardContent>{" "}
+      <Link
+        sx={{ ml: 2, mb: 2, mt: 1 }}
+        href={`/posts/${post._id}`}
+        variant="body2"
+      >
+        more details...
+      </Link>
       <CardActions
         sx={{
           padding: "0 16px 8px 16px",
