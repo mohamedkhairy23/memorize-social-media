@@ -25,16 +25,10 @@ const Home = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const query = useQuery();
+  const page = query.get("page") || 1;
   const searchQuery = query.get("searchQuery");
   const [search, setSearch] = useState("");
   const [tags, setTags] = React.useState([]);
-
-  const handleKeyPress = (e) => {
-    if (e.keyCode === 13) {
-      // search post
-      searchPost();
-    }
-  };
 
   const handleAdd = (tag) => {
     setTags([...tags, tag]);
@@ -44,10 +38,10 @@ const Home = () => {
     setTags(tags.filter((tag) => tag !== tagToDelete));
   };
 
-  useEffect(() => {
-    // dispatch an action
-    dispatch(getPosts());
-  }, [currentId, dispatch]);
+  // useEffect(() => {
+  //   // dispatch an action
+  //   dispatch(getPosts());
+  // }, [currentId, dispatch]);
 
   const searchPost = () => {
     if (search.trim() || tags) {
@@ -89,7 +83,6 @@ const Home = () => {
                 name="search"
                 variant="outlined"
                 label="Search Memories"
-                onKeyPress={handleKeyPress}
                 fullWidth
                 value={search}
                 onChange={(e) => {
@@ -116,12 +109,14 @@ const Home = () => {
               </Button>
             </AppBar>
             <Form currentId={currentId} setCurrentId={setCurrentId} />
-            <Paper
-              sx={{ borderRadius: "4", mt: "1rem", p: "16px" }}
-              elevation={6}
-            >
-              <Paginate />
-            </Paper>
+            {!searchQuery && !tags.length && (
+              <Paper
+                sx={{ borderRadius: "4", mt: "1rem", p: "16px" }}
+                elevation={6}
+              >
+                <Paginate page={page} />
+              </Paper>
+            )}
           </Grid>
         </Grid>
       </Container>

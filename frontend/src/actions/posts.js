@@ -6,15 +6,24 @@ import {
   DELETE,
   LIKE,
   FETCH_BY_SEARCH,
+  START_LOADING,
+  END_LOADING,
 } from "../constants/actionTypes";
 
 // Create Actions
-export const getPosts = () => async (dispatch) => {
+export const getPosts = (page) => async (dispatch) => {
   try {
+    dispatch({ type: START_LOADING });
     // destruct data from returned response
-    const { data } = await api.fetchPosts();
-
-    dispatch({ type: FETCH_ALL, payload: data });
+    const {
+      data: { data, currentPage, numberOfPages },
+    } = await api.fetchPosts(page);
+    console.log(data);
+    dispatch({
+      type: FETCH_ALL,
+      payload: { data, currentPage, numberOfPages },
+    });
+    dispatch({ type: END_LOADING });
   } catch (err) {
     console.log(err);
   }
@@ -22,21 +31,27 @@ export const getPosts = () => async (dispatch) => {
 
 export const getPostsBySearch = (searchQuery) => async (dispatch) => {
   try {
+    dispatch({ type: START_LOADING });
+
+    // we will distruct the data two times, first time because we are making an axios request and the second time because we put it in a new object where it has the data property
     const {
-      // we will distruct the data two times, first time because we are making an axios request and the second time because we put it in a new object where it has the data property
       data: { data },
     } = await api.fetchPostsBySearch(searchQuery);
-
     dispatch({ type: FETCH_BY_SEARCH, payload: data });
+
+    dispatch({ type: END_LOADING });
   } catch (err) {
     console.log(err);
   }
 };
 
-export const createPost = (post) => async (dispatch) => {
+export const createPost = (post, navigate) => async (dispatch) => {
   try {
+    dispatch({ type: START_LOADING });
+
     const { data } = await api.createPost(post);
     dispatch({ type: CREATE, payload: data });
+    navigate("/");
   } catch (err) {
     console.log(err);
   }
@@ -63,8 +78,9 @@ export const deletePost = (id) => async (dispatch) => {
 };
 
 export const likePost = (id) => async (dispatch) => {
+  const user = JSON.parse(localStorage.getItem("profile"));
   try {
-    const { data } = await api.likePost(id);
+    const { data } = await api.likePost(id, user?.token);
     dispatch({ type: LIKE, payload: data });
   } catch (err) {
     console.log(err);

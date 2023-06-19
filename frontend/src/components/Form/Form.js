@@ -4,7 +4,7 @@ import FileBase from "react-file-base64";
 import "./Form.css";
 import { useDispatch, useSelector } from "react-redux";
 import { createPost, updatePost } from "../../actions/posts";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Form = ({ currentId, setCurrentId }) => {
   const dispatch = useDispatch();
@@ -15,8 +15,9 @@ const Form = ({ currentId, setCurrentId }) => {
     tags: "",
     selectedFile: "",
   });
+  const { posts } = useSelector((state) => state.posts);
   const post = useSelector((state) =>
-    currentId ? state.posts.find((p) => p._id === currentId) : null
+    currentId ? posts.find((p) => p._id === currentId) : null
   );
   const user = JSON.parse(localStorage.getItem("profile"));
 
@@ -40,15 +41,13 @@ const Form = ({ currentId, setCurrentId }) => {
     e.preventDefault();
 
     if (currentId === 0) {
-      dispatch(createPost({ ...postData, name: user?.result?.name }));
+      dispatch(createPost({ ...postData, name: user?.result?.name }, navigate));
       clear();
     } else {
       dispatch(
         updatePost(currentId, { ...postData, name: user?.result?.name })
-      ).then(() => {
-        clear();
-        navigate("/");
-      });
+      );
+      clear();
     }
   };
 
@@ -92,7 +91,7 @@ const Form = ({ currentId, setCurrentId }) => {
           label="Message"
           fullWidth
           multiline
-          rows={4}
+          rows={2}
           value={postData.message}
           onChange={(e) =>
             setPostData({ ...postData, message: e.target.value })
