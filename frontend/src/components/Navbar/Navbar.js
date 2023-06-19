@@ -50,7 +50,7 @@ export const Navbar = () => {
       color="inherit"
     >
       <div className="brandContainer">
-        <Link to="/">
+        <Link to="/posts">
           <img src={memoriesTextImg} alt="Memories" height="45px" />
           <img
             sx={{ ml: "16px" }}
