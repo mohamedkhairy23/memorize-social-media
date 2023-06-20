@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import "./PostDetails.css";
 import { getPost, getPostsBySearch } from "../../actions/posts";
+import CommentsSection from "./CommentsSection";
 const PostDetails = () => {
   const { post, posts, isLoading } = useSelector((state) => state.posts);
   const dispatch = useDispatch();
@@ -77,15 +78,13 @@ const PostDetails = () => {
           </Typography>
           <Divider style={{ margin: "20px 0" }} />
           <Typography variant="body1">
-            <strong>Realtime Chat - coming soon!</strong>
-          </Typography>
-          <Divider style={{ margin: "20px 0" }} />
-          <Typography variant="body1">
-            <strong>Comments - coming soon!</strong>
+            <strong>
+              <CommentsSection post={post} />
+            </strong>
           </Typography>
           <Divider style={{ margin: "20px 0" }} />
         </Paper>
-        <Paper sx={{ ml: "20px", sm: { ml: 0 } }}>
+        <div sx={{ ml: "20px", sm: { ml: 0 } }}>
           <img
             className="media"
             src={
@@ -94,15 +93,15 @@ const PostDetails = () => {
             }
             alt={post?.title}
           />
-        </Paper>
+        </div>
       </div>
       {recommendedPosts.length && (
         <div className="section">
-          <Typography gutterBottom varient="h5">
+          <Typography gutterBottom varient="h2">
             You might also like
           </Typography>
           <Divider />
-          <div sx={{ display: "flex", sm: { flexDirection: "column" } }}>
+          <Paper sx={{ display: "flex", sm: { flexDirection: "column" } }}>
             {recommendedPosts.map(
               ({ title, name, message, likes, selectedFile, _id }) => (
                 <div
@@ -116,7 +115,11 @@ const PostDetails = () => {
                   <Typography gutterBottom variant="subtitle2">
                     {name}
                   </Typography>
-                  <Typography gutterBottom variant="subtitle2">
+                  <Typography
+                    gutterBottom
+                    sx={{ width: 200, textOverflow: "ellipsis" }}
+                    variant="subtitle2"
+                  >
                     {message}
                   </Typography>
                   <Typography gutterBottom variant="subtitle1">
@@ -126,7 +129,7 @@ const PostDetails = () => {
                 </div>
               )
             )}
-          </div>
+          </Paper>
         </div>
       )}
     </Paper>

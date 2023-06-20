@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 import Post from "../models/postsModel.js";
-import e from "express";
 
 export const getPosts = async (req, res) => {
   const { page } = req.query;
@@ -127,6 +126,21 @@ export const likePost = async (req, res) => {
       (id) => id !== String(req.userId)
     );
   }
+
+  const updatedPost = await Post.findByIdAndUpdate(id, foundedPost, {
+    new: true,
+  });
+
+  res.json(updatedPost);
+};
+
+export const commentPost = async (req, res) => {
+  const { id } = req.params;
+  const { value } = req.body;
+
+  const foundedPost = await Post.findById(id);
+
+  foundedPost.comments.push(value);
 
   const updatedPost = await Post.findByIdAndUpdate(id, foundedPost, {
     new: true,

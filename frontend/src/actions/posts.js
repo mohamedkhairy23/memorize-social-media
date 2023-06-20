@@ -9,6 +9,7 @@ import {
   START_LOADING,
   END_LOADING,
   FETCH_POST,
+  COMMENT,
 } from "../constants/actionTypes";
 
 // Create Actions
@@ -65,7 +66,7 @@ export const createPost = (post, navigate) => async (dispatch) => {
 
     const { data } = await api.createPost(post);
     dispatch({ type: CREATE, payload: data });
-    navigate("/");
+    navigate(`/posts/${data._id}`);
   } catch (err) {
     console.log(err);
   }
@@ -96,6 +97,16 @@ export const likePost = (id) => async (dispatch) => {
   try {
     const { data } = await api.likePost(id, user?.token);
     dispatch({ type: LIKE, payload: data });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const commentPost = (value, id) => async (dispatch) => {
+  try {
+    const { data } = await api.commentPost(value, id);
+    dispatch({ type: COMMENT, payload: data });
+    return data.comments;
   } catch (err) {
     console.log(err);
   }

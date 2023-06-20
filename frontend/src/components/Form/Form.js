@@ -37,7 +37,7 @@ const Form = ({ currentId, setCurrentId }) => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (currentId === 0) {

@@ -9,3 +9,12 @@
   margin: 10px;
   flex: 1;
 }
+.commentsOuterContainer {
+  display: flex;
+  justify-content: space-between;
+}
+.commentsInnerContainer {
+  height: 200px;
+  overflow-y: auto;
+  margin-right: 30px;
+}
