@@ -16,8 +16,8 @@ export const Navbar = () => {
 
   const logout = () => {
     dispatch({ type: LOGOUT });
-    setUser(null);
     navigate("/auth");
+    setUser(null);
   };
 
   useEffect(() => {

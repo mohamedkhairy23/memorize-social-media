@@ -16,10 +16,15 @@ import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import moment from "moment";
 import { useDispatch } from "react-redux";
 import { deletePost, likePost } from "../../../actions/posts";
+import { useNavigate } from "react-router-dom";
 
 const Post = ({ post, setCurrentId }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("profile"));
+
+  const openPost = (_id) => navigate(`/posts/${post._id}`);
+
   const Likes = () => {
     if (post.likes.length > 0) {
       return post.likes.find(
@@ -111,7 +116,7 @@ const Post = ({ post, setCurrentId }) => {
         </Typography>
       </CardContent>{" "}
       <Link
-        sx={{ ml: 2, mb: 2, mt: 1 }}
+        sx={{ ml: 2, mb: 2, mt: 0 }}
         href={`/posts/${post._id}`}
         variant="body2"
       >

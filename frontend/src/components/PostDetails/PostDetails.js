@@ -4,7 +4,8 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import "./PostDetails.css";
-import { getPost } from "../../actions/posts";
+import { getPost, getPostsBySearch } from "../../actions/posts";
+import CommentsSection from "./CommentsSection";
 const PostDetails = () => {
   const { post, posts, isLoading } = useSelector((state) => state.posts);
   const dispatch = useDispatch();
@@ -14,6 +15,16 @@ const PostDetails = () => {
   useEffect(() => {
     dispatch(getPost(id));
   }, [dispatch, id]);
+
+  useEffect(() => {
+    if (post) {
+      dispatch(
+        getPostsBySearch({ search: "none", tags: post?.tags.join(",") })
+      );
+    }
+  }, [dispatch, post]);
+
+  const openPost = (_id) => navigate(`/posts/${_id}`);
 
   if (!post) return null;
 
@@ -34,6 +45,8 @@ const PostDetails = () => {
       </Paper>
     );
   }
+
+  const recommendedPosts = posts.filter(({ _id }) => _id !== post._id);
 
   return (
     <Paper sx={{ p: "20px", borderRadius: "15px" }} elevation={6}>
@@ -65,15 +78,13 @@ const PostDetails = () => {
           </Typography>
           <Divider style={{ margin: "20px 0" }} />
           <Typography variant="body1">
-            <strong>Realtime Chat - coming soon!</strong>
-          </Typography>
-          <Divider style={{ margin: "20px 0" }} />
-          <Typography variant="body1">
-            <strong>Comments - coming soon!</strong>
+            <strong>
+              <CommentsSection post={post} />
+            </strong>
           </Typography>
           <Divider style={{ margin: "20px 0" }} />
         </Paper>
-        <Paper sx={{ ml: "20px", sm: { ml: 0 } }}>
+        <div sx={{ ml: "20px", sm: { ml: 0 } }}>
           <img
             className="media"
             src={
@@ -82,8 +93,45 @@ const PostDetails = () => {
             }
             alt={post?.title}
           />
-        </Paper>
+        </div>
       </div>
+      {recommendedPosts.length && (
+        <div className="section">
+          <Typography gutterBottom varient="h2">
+            You might also like
+          </Typography>
+          <Divider />
+          <Paper sx={{ display: "flex", sm: { flexDirection: "column" } }}>
+            {recommendedPosts.map(
+              ({ title, name, message, likes, selectedFile, _id }) => (
+                <div
+                  style={{ margin: "20px", cursor: "pointer" }}
+                  onClick={() => openPost(_id)}
+                  key={_id}
+                >
+                  <Typography gutterBottom variant="h6">
+                    {title}
+                  </Typography>
+                  <Typography gutterBottom variant="subtitle2">
+                    {name}
+                  </Typography>
+                  <Typography
+                    gutterBottom
+                    sx={{ width: 200, textOverflow: "ellipsis" }}
+                    variant="subtitle2"
+                  >
+                    {message}
+                  </Typography>
+                  <Typography gutterBottom variant="subtitle1">
+                    Likes: {likes.length}
+                  </Typography>
+                  <img src={selectedFile} alt="img" width="200px" />
+                </div>
+              )
+            )}
+          </Paper>
+        </div>
+      )}
     </Paper>
   );
 };
