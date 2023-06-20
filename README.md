@@ -1,1 +1,11 @@
-# memorize
+Features:
+- React for frontend
+- Redux and Thunk for state management
+- Material UI for styling
+- Node and ExpressJS for backend
+- Auth using JSON Web Token
+- Google Auth
+- CRUD methods on posts
+- Comments and likes
+- Search By title and search by tags
+- Pagination
