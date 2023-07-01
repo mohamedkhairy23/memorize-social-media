@@ -29,12 +29,13 @@ const App = () => {
         <ScrollToTop />
         <Routes>
           <Route path="/" Component={() => <Navigate to="/posts" />} />
-          <Route path="/posts" element={<Home />} />
+          <Route index={true} path="/posts" element={<Home />} />
           <Route path="/posts/search" element={<Home />} />
           <Route path="/posts/:id" element={<PostDetails />} />
           <Route
             path="/auth"
-            Component={() => (!user ? <Auth /> : <Navigate to="/posts" />)}
+            element={<Auth />}
+            // Component={() => (!user ? <Auth /> : <Navigate to="/posts" />)}
           />
         </Routes>
       </Container>
