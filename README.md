@@ -8,5 +8,5 @@ Features:
 - CRUD methods on posts
 - Comments and likes
 - Search By title and search by tags
-- Pagination
+- Page pagination
 - React file base for uploading images
