@@ -23,11 +23,13 @@ const App = () => {
           <Route index={true} path="/posts" element={<Home />} />
           <Route path="/posts/search" element={<Home />} />
           <Route path="/posts/:id" element={<PostDetails />} />
-          <Route
-            path="/auth"
-            element={<Auth />}
-            // Component={() => (!user ? <Auth /> : <Navigate to="/posts" />)}
-          />
+          {!user && (
+            <Route
+              path="/auth"
+              element={<Auth />}
+              // Component={() => (!user ? <Auth /> : <Navigate to="/posts" />)}
+            />
+          )}
         </Routes>
       </Container>
     </BrowserRouter>
