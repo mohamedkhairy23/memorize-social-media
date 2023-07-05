@@ -13,7 +13,7 @@ import PostDetails from "./components/PostDetails/PostDetails";
 import { useEffect } from "react";
 
 const App = () => {
-  const user = JSON.parse(localStorage.getItem("profile"));
+  // const user = JSON.parse(localStorage.getItem("profile"));
   return (
     <BrowserRouter>
       <Container maxWidth="xl">
@@ -23,13 +23,11 @@ const App = () => {
           <Route index={true} path="/posts" element={<Home />} />
           <Route path="/posts/search" element={<Home />} />
           <Route path="/posts/:id" element={<PostDetails />} />
-          {!user && (
-            <Route
-              path="/auth"
-              element={<Auth />}
-              // Component={() => (!user ? <Auth /> : <Navigate to="/posts" />)}
-            />
-          )}
+          <Route
+            path="/auth"
+            element={<Auth />}
+            // Component={() => (!user ? <Auth /> : <Navigate to="/posts" />)}
+          />
         </Routes>
       </Container>
     </BrowserRouter>
