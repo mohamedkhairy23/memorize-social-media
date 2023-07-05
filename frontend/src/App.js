@@ -12,21 +12,12 @@ import Auth from "./components/Auth/Auth";
 import PostDetails from "./components/PostDetails/PostDetails";
 import { useEffect } from "react";
 
-const ScrollToTop = () => {
-  const { pathname } = useLocation();
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
-  return null;
-};
-
 const App = () => {
   const user = JSON.parse(localStorage.getItem("profile"));
   return (
     <BrowserRouter>
       <Container maxWidth="xl">
         <Navbar />
-        <ScrollToTop />
         <Routes>
           <Route path="/" Component={() => <Navigate to="/posts" />} />
           <Route index={true} path="/posts" element={<Home />} />
