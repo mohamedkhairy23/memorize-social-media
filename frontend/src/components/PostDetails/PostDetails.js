@@ -1,4 +1,10 @@
-import { CircularProgress, Divider, Paper, Typography } from "@mui/material";
+import {
+  CircularProgress,
+  Divider,
+  Paper,
+  Typography,
+  CardMedia,
+} from "@mui/material";
 import moment from "moment";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -54,7 +60,8 @@ const PostDetails = () => {
         style={{
           display: "flex",
           width: "100%",
-          md: { flexWrap: "wrap", flexDirection: "column" },
+          flexWrap: "wrap-reverse",
+          sm: { flexDirection: "column" },
         }}
       >
         <Paper sx={{ borderRadius: "20px", m: "10px", p: "12px", flex: 1 }}>
@@ -101,7 +108,13 @@ const PostDetails = () => {
             You might also like
           </Typography>
           <Divider />
-          <Paper sx={{ display: "flex", sm: { flexDirection: "column" } }}>
+          <Paper
+            sx={{
+              display: "flex",
+              flexWrap: "wrap",
+              md: { flexDirection: "column" },
+            }}
+          >
             {recommendedPosts.map(
               ({ title, name, message, likes, selectedFile, _id }) => (
                 <div
@@ -125,7 +138,16 @@ const PostDetails = () => {
                   <Typography gutterBottom variant="subtitle1">
                     Likes: {likes.length}
                   </Typography>
-                  <img src={selectedFile} alt="img" width="200px" />
+                  <CardMedia
+                    height="0"
+                    sx={{
+                      pt: "56.25%",
+                      backgroundColor: "rgba(0,0,0,0.5)",
+                      backgroundBlendMode: "darken",
+                    }}
+                    image={selectedFile}
+                    title={title}
+                  />
                 </div>
               )
             )}

@@ -23,8 +23,6 @@ const Post = ({ post, setCurrentId }) => {
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("profile"));
 
-  const openPost = (_id) => navigate(`/posts/${post._id}`);
-
   const Likes = () => {
     if (post.likes.length > 0) {
       return post.likes.find(
@@ -142,7 +140,7 @@ const Post = ({ post, setCurrentId }) => {
           <Button
             size="small"
             color="primary"
-            onClick={() => dispatch(deletePost(post._id))}
+            onClick={() => dispatch(deletePost(post._id, navigate))}
           >
             <DeleteIcon fontSize="small" />
           </Button>

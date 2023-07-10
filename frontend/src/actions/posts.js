@@ -72,21 +72,23 @@ export const createPost = (post, navigate) => async (dispatch) => {
   }
 };
 
-export const updatePost = (id, post) => async (dispatch) => {
+export const updatePost = (id, post, navigate) => async (dispatch) => {
   try {
     // destruct data from response
     const { data } = await api.updatePost(id, post);
 
     dispatch({ type: UPDATE, payload: data });
+    navigate(`/posts`);
   } catch (err) {
     console.log(err);
   }
 };
 
-export const deletePost = (id) => async (dispatch) => {
+export const deletePost = (id, navigate) => async (dispatch) => {
   try {
     await api.deletePost(id);
     dispatch({ type: DELETE, payload: id });
+    navigate(`/posts`);
   } catch (err) {
     console.log(err);
   }

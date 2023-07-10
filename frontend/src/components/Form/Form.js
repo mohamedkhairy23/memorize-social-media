@@ -45,7 +45,11 @@ const Form = ({ currentId, setCurrentId }) => {
       clear();
     } else {
       dispatch(
-        updatePost(currentId, { ...postData, name: user?.result?.name })
+        updatePost(
+          currentId,
+          { ...postData, name: user?.result?.name },
+          navigate
+        )
       );
       clear();
     }

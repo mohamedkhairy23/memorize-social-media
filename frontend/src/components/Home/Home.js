@@ -13,9 +13,9 @@ import Form from "../Form/Form";
 import { useDispatch } from "react-redux";
 import { getPosts, getPostsBySearch } from "../../actions/posts";
 import Paginate from "../Pagination/Paginate";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { MuiChipsInput } from "mui-chips-input";
-
+import { Link } from "react-router-dom";
 function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
@@ -38,10 +38,10 @@ const Home = () => {
     setTags(tags.filter((tag) => tag !== tagToDelete));
   };
 
-  // useEffect(() => {
-  //   // dispatch an action
-  //   dispatch(getPosts());
-  // }, [currentId, dispatch]);
+  useEffect(() => {
+    // dispatch an action
+    dispatch(getPosts());
+  }, [currentId, dispatch]);
 
   const searchPost = () => {
     if (search.trim() || tags) {
@@ -50,7 +50,7 @@ const Home = () => {
       navigate(
         `/posts/search?searchQuery=${search || "none"}&tags=${tags.join(",")}`
       );
-    } else {
+    } else if (!searchQuery && !tags.length) {
       navigate("/");
     }
   };
@@ -107,6 +107,19 @@ const Home = () => {
               >
                 Search
               </Button>
+              <Link to={`/`}>
+                <Button
+                  disabled={!searchQuery && !tags.length}
+                  sx={{ my: 1 }}
+                  variant="contained"
+                  color="primary"
+                  size="large"
+                  onClick={searchPost}
+                  fullWidth
+                >
+                  Back
+                </Button>
+              </Link>
             </AppBar>
             <Form currentId={currentId} setCurrentId={setCurrentId} />
             {!searchQuery && !tags.length && (
